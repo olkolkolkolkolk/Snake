@@ -1,3 +1,5 @@
+fetch ("https://script.google.com/macros/s/AKfycbzn5hSQhUa_e39Q0npxRaVdy7vuwz4_6MS4-QzAoDLrfpwfbeBHWWjqheDYZTtZ7Sgp/exec?event=open"); 
+       
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -225,6 +227,8 @@ canvas.addEventListener("touchend", function (e) {
 
   handleSwipe(touchEndX, touchEndY);
 }, false);
+
+fetch ("https://script.google.com/macros/s/AKfycbzn5hSQhUa_e39Q0npxRaVdy7vuwz4_6MS4-QzAoDLrfpwfbeBHWWjqheDYZTtZ7Sgp/exec?event=play"); 
 
 function handleSwipe(endX, endY) {
   let dx = endX - touchStartX;
