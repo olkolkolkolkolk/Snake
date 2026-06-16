@@ -204,5 +204,48 @@ function initGame() {
 // ✅ Resize en direct
 window.addEventListener("resize", resizeCanvas);
 
+let touchStartX = 0;
+let touchStartY = 0;
+
+canvas.addEventListener("touchstart", function (e) {
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+}, false);
+
+canvas.addEventListener("touchend", function (e) {
+  const touch = e.changedTouches[0];
+  let touchEndX = touch.clientX;
+  let touchEndY = touch.clientY;
+
+  handleSwipe(touchEndX, touchEndY);
+}, false);
+
+function handleSwipe(endX, endY) {
+  let dx = endX - touchStartX;
+  let dy = endY - touchStartY;
+
+  // seuil minimum pour éviter les petits gestes involontaires
+  const minSwipeDistance = 30;
+
+  if (Math.abs(dx) > Math.abs(dy)) {
+    if (Math.abs(dx) > minSwipeDistance) {
+      if (dx > 0 && direction !== "LEFT") {
+        direction = "RIGHT";
+      } else if (dx < 0 && direction !== "RIGHT") {
+        direction = "LEFT";
+      }
+    }
+  } else {
+    if (Math.abs(dy) > minSwipeDistance) {
+      if (dy > 0 && direction !== "UP") {
+        direction = "DOWN";
+      } else if (dy < 0 && direction !== "DOWN") {
+        direction = "UP";
+      }
+    }
+  }
+}
+
 // ✅ Lancement
 initGame();
