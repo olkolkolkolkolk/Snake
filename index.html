@@ -3,23 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Triomphe du serpent</title>
+  <title>Collecte un trésor</title>
+
   <link rel="stylesheet" href="snake.css" />
 </head>
+
 <body>
   <h1>L'ultime épreuve !</h1>
+
   <canvas id="gameCanvas"></canvas>
+
   <p id="score">Score : 0</p>
 
-  <script src="snake.js"></script>
+  <!-- ✅ boutons -->
   <div id="controls">
-  <button id="up">⬆️</button>
-  <div>
-    <button id="left">⬅️</button>
-    <button id="down">⬇️</button>
-    <button id="right">➡️</button>
+    <button id="up">⬆️</button>
+    <div>
+      <button id="left">⬅️</button>
+      <button id="down">⬇️</button>
+      <button id="right">➡️</button>
+    </div>
   </div>
-</div>
 
+  <!-- ✅ JS correctement lié -->
+  <script src="snake.js"></script>
 </body>
 </html>
