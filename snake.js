@@ -1,40 +1,56 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-const width = canvas.width;
-const height = canvas.height;
-
-const boxSize = 20;
+let boxSize = 20;      // sera recalculé
+let width;
+let height;
+const gridSize = 20;   // nombre de cases
 const gameSpeed = 100;
 
-let snake = [{ x: 9 * boxSize, y: 10 * boxSize }];
+let snake;
 let direction = "RIGHT";
 let score = 0;
-
 const scoreDisplay = document.getElementById("score");
 
 let game;
 let isPaused = false;
-let pauseTriggered = false; // 🔥 empêche boucle infinie
+let pauseTriggered = false;
 
+// ✅ Rend le canvas responsive
+function resizeCanvas() {
+  const size = Math.min(window.innerWidth * 0.9, 500);
+
+  canvas.width = size;
+  canvas.height = size;
+
+  width = canvas.width;
+  height = canvas.height;
+
+  boxSize = width / gridSize;
+}
+
+// ✅ Dessin case
 function drawBox(x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, boxSize, boxSize);
 }
 
+// ✅ Génération nourriture
 function spawnFood() {
   return {
-    x: Math.floor(Math.random() * (width / boxSize)) * boxSize,
-    y: Math.floor(Math.random() * (height / boxSize)) * boxSize,
+    x: Math.floor(Math.random() * gridSize) * boxSize,
+    y: Math.floor(Math.random() * gridSize) * boxSize,
   };
 }
 
-let food = spawnFood();
+let food;
 
+// ✅ Contrôles clavier
 document.addEventListener("keydown", changeDirection);
 
 function changeDirection(e) {
   e.preventDefault();
+
   if (e.key === "ArrowLeft" && direction !== "RIGHT") {
     direction = "LEFT";
   } else if (e.key === "ArrowUp" && direction !== "DOWN") {
@@ -46,17 +62,17 @@ function changeDirection(e) {
   }
 }
 
-
+// ✅ Collision corps
 function collisionWithBody(head, body) {
   return body.some(segment => segment.x === head.x && segment.y === head.y);
 }
 
+// ✅ Texte centré
 function drawCenteredMultilineText(text, maxWidth, lineHeight) {
   const words = text.split(" ");
   let lines = [];
   let line = "";
 
-  // Découpe du texte en lignes
   for (let i = 0; i < words.length; i++) {
     const testLine = line + words[i] + " ";
     const testWidth = ctx.measureText(testLine).width;
@@ -68,23 +84,20 @@ function drawCenteredMultilineText(text, maxWidth, lineHeight) {
       line = testLine;
     }
   }
+
   lines.push(line);
 
-  // Calcul du point de départ pour centrage vertical
   const totalHeight = lines.length * lineHeight;
   let startY = (height - totalHeight) / 2;
 
-  // Texte centré horizontalement
   ctx.textAlign = "center";
-
   lines.forEach((l, i) => {
     ctx.fillText(l, width / 2, startY + i * lineHeight);
   });
-
-  // Reset sécurité
   ctx.textAlign = "start";
 }
 
+// ✅ Pause avec texte responsive
 function pauseGame() {
   isPaused = true;
   clearInterval(game);
@@ -93,15 +106,15 @@ function pauseGame() {
   ctx.fillRect(0, 0, width, height);
 
   ctx.fillStyle = "white";
-  ctx.font = "18px Arial";
+  ctx.font = `${Math.max(14, width / 25)}px Arial`;
 
   const message =
     "Félicitations ! Pour récompenser vos efforts voilà le mot secret : SECRET (et oui, tout simplement). " +
-    "Dites-le aux bibliothécaires et ils vous donneront vos deux morceaux de carte en récompense. " +
+    "Dites-le aux bibliothécaires et ils vous donneront votre morceau de page en récompense. " +
     "Bravo à vous jeune pirate, et bon courage pour la suite de vos aventures !";
 
-  const maxWidth = width * 0.8; // 80% du canvas
-  const lineHeight = 24;
+  const maxWidth = width * 0.8;
+  const lineHeight = width / 20;
 
   drawCenteredMultilineText(message, maxWidth, lineHeight);
 
@@ -111,6 +124,7 @@ function pauseGame() {
   }, 10000);
 }
 
+// ✅ Boucle de jeu
 function drawGame() {
   if (isPaused) return;
 
@@ -126,26 +140,24 @@ function drawGame() {
   if (direction === "UP") snakeY -= boxSize;
   if (direction === "DOWN") snakeY += boxSize;
 
-  // 🍎 Manger la nourriture
+  // 🍎 Mange
   if (snakeX === food.x && snakeY === food.y) {
     score++;
     scoreDisplay.textContent = `Score : ${score}`;
     food = spawnFood();
 
-    // 🔥 Déclenche la pause UNE SEULE FOIS
     if (score === 5 && !pauseTriggered) {
       pauseTriggered = true;
       pauseGame();
-      return; // important !
+      return;
     }
-
   } else {
     snake.pop();
   }
 
   let newHead = { x: snakeX, y: snakeY };
 
-  // Collision mur
+  // ✅ Collision murs (responsive)
   if (
     snakeX < 0 ||
     snakeX >= width ||
@@ -158,7 +170,7 @@ function drawGame() {
     return;
   }
 
-  // Collision corps
+  // ✅ Collision corps
   if (collisionWithBody(newHead, snake)) {
     clearInterval(game);
     alert(`Game Over ! Score : ${score}`);
@@ -173,11 +185,15 @@ function drawGame() {
   });
 }
 
+// ✅ Initialisation
 function initGame() {
+  resizeCanvas();
+
   snake = [{ x: 9 * boxSize, y: 10 * boxSize }];
   direction = "RIGHT";
   score = 0;
   pauseTriggered = false;
+
   scoreDisplay.textContent = `Score : ${score}`;
   food = spawnFood();
 
@@ -185,4 +201,8 @@ function initGame() {
   game = setInterval(drawGame, gameSpeed);
 }
 
-game = setInterval(drawGame, gameSpeed);
+// ✅ Resize en direct
+window.addEventListener("resize", resizeCanvas);
+
+// ✅ Lancement
+initGame();
