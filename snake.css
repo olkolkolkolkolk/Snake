@@ -40,3 +40,29 @@ h1 {
 #gameCanvas {
   touch-action: none;
 }
+
+#controls {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+#controls div {
+  display: flex;
+  gap: 10px;
+}
+
+#controls button {
+  font-size: 24px;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #444;
+  color: white;
+}
+
+#controls button:active {
+  background-color: #777;
+}
