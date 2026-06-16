@@ -265,5 +265,5 @@ document.getElementById("right").addEventListener("click", () => {
 
 // ✅ Lancement
 initGame();
-
+resizeCanvas(); // OBLIGATOIRE
 
