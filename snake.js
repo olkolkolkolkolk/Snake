@@ -118,11 +118,16 @@ function pauseGame() {
 
   drawCenteredMultilineText(message, maxWidth, lineHeight);
 
-  setTimeout(() => {
-    isPaused = false;
-    game = setInterval(drawGame, gameSpeed);
-  }, 10000);
+  
+setTimeout(() => {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = "/";
+    }
+  }, 5000);
 }
+
 
 // ✅ Boucle de jeu
 function drawGame() {
