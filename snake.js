@@ -124,6 +124,7 @@ function pauseGame() {
 setTimeout(() => {
       window.location.href = "https://mediatheques.toulon.fr/";
   }, 60000);
+       }
 
 
 
