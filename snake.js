@@ -122,13 +122,9 @@ function pauseGame() {
 
   
 setTimeout(() => {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = "/";
-    }
+      window.location.href = "https://mediatheques.toulon.fr/";
   }, 60000);
-}
+
 
 
 // ✅ Boucle de jeu
