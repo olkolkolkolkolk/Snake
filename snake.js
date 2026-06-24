@@ -127,7 +127,7 @@ setTimeout(() => {
     } else {
       window.location.href = "/";
     }
-  }, 6000);
+  }, 5000);
 }
 
 
