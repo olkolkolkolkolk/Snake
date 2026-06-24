@@ -127,7 +127,7 @@ setTimeout(() => {
     } else {
       window.location.href = "/";
     }
-  }, 5000);
+  }, 60000);
 }
 
 
@@ -172,7 +172,7 @@ function drawGame() {
     snakeY >= height
   ) {
     clearInterval(game);
-    alert(`Game Over ! Score : ${score}`);
+    alert(`Game Over ! Score : ${score} Pour rejouer, cliquez sur OK !`);
     initGame();
     return;
   }
