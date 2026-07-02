@@ -7,7 +7,7 @@ let boxSize = 20;      // sera recalculé
 let width;
 let height;
 const gridSize = 20;   // nombre de cases
-const gameSpeed = 150;
+const gameSpeed = 160;
 
 let snake;
 let direction = "RIGHT";
